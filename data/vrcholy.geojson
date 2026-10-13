@@ -1,0 +1,583 @@
+{
+ "type": "FeatureCollection",
+ "features": [
+  {
+   "type": "Feature",
+   "properties": {
+    "nazev": "Kamenec",
+    "vyska_m": 1072,
+    "jednotka": "Novohradské hory",
+    "subprovincie": "Šumavská subprovincie",
+    "mimo_cr": null
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     14.66944,
+     48.585
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "nazev": "Plechý",
+    "vyska_m": 1378,
+    "jednotka": "Šumava",
+    "subprovincie": "Šumavská subprovincie",
+    "mimo_cr": null
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     13.85722,
+     48.77111
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "nazev": "Velký Javor (Großer Arber)",
+    "vyska_m": 1453,
+    "jednotka": "Šumava",
+    "subprovincie": "Šumavská subprovincie",
+    "mimo_cr": "DE"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     13.13619,
+     49.11247
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "nazev": "Čerchov",
+    "vyska_m": 1042,
+    "jednotka": "Český les",
+    "subprovincie": "Šumavská subprovincie",
+    "mimo_cr": null
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     12.78402,
+     49.38319
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "nazev": "Dyleň",
+    "vyska_m": 940,
+    "jednotka": "Český les",
+    "subprovincie": "Šumavská subprovincie",
+    "mimo_cr": null
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     12.50278,
+     49.96778
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "nazev": "Klínovec",
+    "vyska_m": 1244,
+    "jednotka": "Krušné hory",
+    "subprovincie": "Krušnohorská subprovincie",
+    "mimo_cr": null
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     12.96778,
+     50.39611
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "nazev": "Děčínský Sněžník",
+    "vyska_m": 724,
+    "jednotka": "Děčínská vrchovina",
+    "subprovincie": "Krušnohorská subprovincie",
+    "mimo_cr": null
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     14.10861,
+     50.79306
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "nazev": "Hradiště",
+    "vyska_m": 934,
+    "jednotka": "Doupovské hory",
+    "subprovincie": "Krušnohorská subprovincie",
+    "mimo_cr": null
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     13.1267,
+     50.2181
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "nazev": "Milešovka",
+    "vyska_m": 837,
+    "jednotka": "České středohoří",
+    "subprovincie": "Krušnohorská subprovincie",
+    "mimo_cr": null
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     13.93109,
+     50.5549
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "nazev": "Lesný",
+    "vyska_m": 983,
+    "jednotka": "Slavkovský les",
+    "subprovincie": "Krušnohorská subprovincie",
+    "mimo_cr": null
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     12.6158,
+     50.0353
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "nazev": "Tok",
+    "vyska_m": 865,
+    "jednotka": "Brdská vrchovina",
+    "subprovincie": "Poberounská subprovincie",
+    "mimo_cr": null
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     13.87694,
+     49.70444
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "nazev": "Ralsko",
+    "vyska_m": 698,
+    "jednotka": "Ralská pahorkatina",
+    "subprovincie": "Česká tabule",
+    "mimo_cr": null
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     14.76583,
+     50.67417
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "nazev": "Bezděz",
+    "vyska_m": 606,
+    "jednotka": "Ralská pahorkatina",
+    "subprovincie": "Česká tabule",
+    "mimo_cr": null
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     14.72028,
+     50.53917
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "nazev": "Trosky",
+    "vyska_m": 511,
+    "jednotka": "Ralská pahorkatina",
+    "subprovincie": "Česká tabule",
+    "mimo_cr": "X"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     15.23116,
+     50.51655
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "nazev": "Říp",
+    "vyska_m": 461,
+    "jednotka": "Dolnooharská tabule",
+    "subprovincie": "Česká tabule",
+    "mimo_cr": null
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     14.28963,
+     50.38653
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "nazev": "Luž",
+    "vyska_m": 793,
+    "jednotka": "Lužické hory",
+    "subprovincie": "Krkonošsko-jesenická subprovincie",
+    "mimo_cr": null
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     14.64694,
+     50.84889
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "nazev": "Ještěd",
+    "vyska_m": 1012,
+    "jednotka": "Ještědsko-kozákovský hřbet",
+    "subprovincie": "Krkonošsko-jesenická subprovincie",
+    "mimo_cr": null
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     14.98528,
+     50.73222
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "nazev": "Smrk (Jizerské hory)",
+    "vyska_m": 1124,
+    "jednotka": "Jizerské hory",
+    "subprovincie": "Krkonošsko-jesenická subprovincie",
+    "mimo_cr": null
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     15.27193,
+     50.8894
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "nazev": "Sněžka",
+    "vyska_m": 1602,
+    "jednotka": "Krkonoše",
+    "subprovincie": "Krkonošsko-jesenická subprovincie",
+    "mimo_cr": null
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     15.74028,
+     50.73611
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "nazev": "Velká Deštná",
+    "vyska_m": 1115,
+    "jednotka": "Orlické hory",
+    "subprovincie": "Krkonošsko-jesenická subprovincie",
+    "mimo_cr": null
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     16.39778,
+     50.30167
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "nazev": "Králický Sněžník",
+    "vyska_m": 1423,
+    "jednotka": "Králický Sněžník",
+    "subprovincie": "Krkonošsko-jesenická subprovincie",
+    "mimo_cr": null
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     16.84694,
+     50.2075
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "nazev": "Smrk (Rychlebské hory)",
+    "vyska_m": 1125,
+    "jednotka": "Rychlebské hory",
+    "subprovincie": "Krkonošsko-jesenická subprovincie",
+    "mimo_cr": null
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     17.03417,
+     50.22861
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "nazev": "Praděd",
+    "vyska_m": 1491,
+    "jednotka": "Hrubý Jeseník",
+    "subprovincie": "Krkonošsko-jesenická subprovincie",
+    "mimo_cr": null
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     17.23086,
+     50.08319
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "nazev": "Slunečná",
+    "vyska_m": 800,
+    "jednotka": "Nízký Jeseník",
+    "subprovincie": "Krkonošsko-jesenická subprovincie",
+    "mimo_cr": null
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     17.43,
+     49.8397
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "nazev": "Drkolná",
+    "vyska_m": 729,
+    "jednotka": "Středočeská pahorkatina",
+    "subprovincie": "Česko-moravská subprovincie",
+    "mimo_cr": null
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     13.39442,
+     49.33911
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "nazev": "Blaník",
+    "vyska_m": 638,
+    "jednotka": "Středočeská pahorkatina",
+    "subprovincie": "Česko-moravská subprovincie",
+    "mimo_cr": null
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     14.87278,
+     49.64222
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "nazev": "Devět skal",
+    "vyska_m": 836,
+    "jednotka": "Žďárské vrchy",
+    "subprovincie": "Česko-moravská subprovincie",
+    "mimo_cr": null
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     16.03222,
+     49.67056
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "nazev": "Javořice",
+    "vyska_m": 837,
+    "jednotka": "Českomoravská vrchovina",
+    "subprovincie": "Česko-moravská subprovincie",
+    "mimo_cr": null
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     15.33944,
+     49.22111
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "nazev": "Velká Javořina",
+    "vyska_m": 970,
+    "jednotka": "Bílé Karpaty",
+    "subprovincie": "Vnější Západní Karpaty",
+    "mimo_cr": null
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     17.67583,
+     48.85778
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "nazev": "Malý Javorník",
+    "vyska_m": 1019,
+    "jednotka": "Javorníky",
+    "subprovincie": "Vnější Západní Karpaty",
+    "mimo_cr": null
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     18.3033,
+     49.3058
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "nazev": "Velký Javorník",
+    "vyska_m": 1071,
+    "jednotka": "Javorníky",
+    "subprovincie": "Vnější Západní Karpaty",
+    "mimo_cr": "SK"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     18.3675,
+     49.31917
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "nazev": "Lysá hora",
+    "vyska_m": 1323,
+    "jednotka": "Moravskoslezské Beskydy",
+    "subprovincie": "Vnější Západní Karpaty",
+    "mimo_cr": null
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     18.4475,
+     49.54583
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "nazev": "Hostýn",
+    "vyska_m": 736,
+    "jednotka": "Hostýnsko-vsetínská hornatina",
+    "subprovincie": "Vnější Západní Karpaty",
+    "mimo_cr": null
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     17.70194,
+     49.37972
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "nazev": "Brdo",
+    "vyska_m": 587,
+    "jednotka": "Chřiby",
+    "subprovincie": "Vnější Západní Karpaty",
+    "mimo_cr": null
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     17.30889,
+     49.17111
+    ]
+   }
+  }
+ ]
+}
