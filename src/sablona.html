@@ -36,7 +36,6 @@ h1 small{display:block;font-family:var(--f-label);font-weight:500;font-size:.85r
 .tabs button{font-family:var(--f-label);font-size:1.05rem;letter-spacing:.06em;text-transform:uppercase;font-weight:600;border:1px solid var(--line);background:var(--sheet);color:var(--muted);padding:5px 14px;border-radius:3px;cursor:pointer}
 .tabs button[aria-selected="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
 .layout{display:grid;grid-template-columns:minmax(0,1fr) 360px;gap:14px;align-items:start}
-@media (max-width:900px){.layout{grid-template-columns:minmax(0,1fr)}}
 .mapbox{position:relative;background:var(--sheet);border:1px solid var(--line);border-radius:4px;overflow:hidden}
 .maptools{position:absolute;top:8px;left:8px;display:flex;flex-direction:column;gap:4px;z-index:2}
 .maptools button{width:32px;height:32px;font-size:18px;line-height:1;border:1px solid var(--line);background:var(--sheet);color:var(--ink);border-radius:3px;cursor:pointer}
@@ -112,7 +111,59 @@ legend{font-family:var(--f-label);font-weight:600;font-size:1rem;letter-spacing:
 footer{font-size:.82rem;color:var(--muted);border-top:1px solid var(--line);padding-top:8px}
 footer p{max-width:75ch}
 kbd{font-family:var(--f-label);border:1px solid var(--line);border-radius:3px;padding:0 4px;font-size:.9em}
-@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+/* tablet a telefon na výšku: jeden sloupec, mapa zůstává nahoře */
+@media (max-width:900px){
+  .layout{grid-template-columns:minmax(0,1fr)}
+  .mapbox{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;box-shadow:0 10px 14px -14px var(--ink)}
+  svg#map{max-height:52dvh}
+  .tree{max-height:none;overflow:visible}
+  body[data-mode="setup"] .mapbox{display:none}
+}
+/* telefon */
+@media (max-width:640px){
+  body{font-size:15px}
+  .wrap{padding:8px 16px 24px;gap:10px}
+  header{flex-wrap:nowrap;align-items:center;gap:10px;padding-bottom:6px}
+  h1{font-size:1.12rem;letter-spacing:0}
+  h1 small{display:none}
+  .tabs button{padding:8px 11px;font-size:.98rem}
+  .mapbox{margin-inline:-16px;border-radius:0;border-left:0;border-right:0}
+  .maptools{top:6px;left:6px}
+  .maptools button{width:40px;height:40px;font-size:20px}
+  .layers{gap:2px 14px;padding:4px 16px;font-size:1rem}
+  .layers label{min-height:34px}
+  .layers .lg{display:none}
+  body[data-mode="run"] .layers,body[data-mode="run"] footer{display:none}
+  .card{padding:12px 14px}
+  .prompt{font-size:1.14rem;margin-bottom:8px}
+  .opts{grid-template-columns:1fr 1fr}
+  .opts button{min-height:54px;font-size:.94rem;line-height:1.2;padding:8px}
+  .chip span{padding:8px 12px;font-size:1.05rem}
+  .btn{min-height:46px}
+  .row .btn{flex:1 1 auto}
+  .typed input{font-size:16px}
+  .tree{font-size:1rem}
+  .tree button.u{padding:6px 0 6px 18px}
+  .qhead{font-size:.95rem}
+  .bar{margin:4px 0 8px}
+}
+/* telefon na šířku: mapa a panel vedle sebe */
+@media (orientation:landscape) and (max-height:520px){
+  .wrap{padding-block:6px 10px;gap:6px}
+  header{flex-wrap:nowrap;align-items:center;padding-bottom:4px}
+  h1{font-size:1.1rem} h1 small{display:none}
+  .tabs button{padding:5px 11px}
+  .layout{grid-template-columns:minmax(0,1fr) 300px;gap:10px}
+  .mapbox{position:sticky;top:6px;margin-inline:0;border:1px solid var(--line);border-radius:4px;box-shadow:none}
+  body[data-mode="setup"] .mapbox{display:block}
+  svg#map{max-height:calc(100dvh - 104px)}
+  .layers{padding:3px 10px}
+  .layers .lg{display:none}
+  .panel{max-height:calc(100dvh - 62px);overflow:auto;position:sticky;top:6px}
+  .opts{grid-template-columns:1fr 1fr}
+  footer{display:none}
+}
 </style>
 
 <div class="wrap">
@@ -132,13 +183,13 @@ kbd{font-family:var(--f-label);border:1px solid var(--line);border-radius:3px;pa
         <button id="zreset" title="Celá republika" aria-label="Celá republika">⤢</button>
       </div>
       <svg id="map" viewBox="0 0 445 268" role="img" aria-label="Mapa geomorfologických jednotek Česka">
-        <g id="gBase"></g><g id="gUnits"></g><g id="gSubs"></g><g id="gHL"></g><g id="gCities"></g><g id="gLabels"></g><g id="gPeaks"></g><g id="gMark"></g>
+        <g id="gBase"></g><g id="gUnits"></g><g id="gSubs"></g><g id="gHL"></g><g id="gCities"></g><g id="gPeaks"></g><g id="gLabels"></g><g id="gMark"></g>
       </svg>
       <div class="layers">
-        <label><input type="checkbox" id="lyColors" checked> barvy subprovincií</label>
-        <label><input type="checkbox" id="lyNames" checked> názvy jednotek</label>
+        <label><input type="checkbox" id="lyColors" checked> barvy<span class="lg"> subprovincií</span></label>
+        <label><input type="checkbox" id="lyNames" checked> názvy<span class="lg"> jednotek</span></label>
         <label><input type="checkbox" id="lyPeaks" checked> vrcholy</label>
-        <label><input type="checkbox" id="lyCities" checked> krajská města</label>
+        <label><input type="checkbox" id="lyCities" checked> <span class="lg">krajská </span>města</label>
       </div>
     </div>
 
@@ -168,7 +219,7 @@ kbd{font-family:var(--f-label);border:1px solid var(--line);border-radius:3px;pa
             <label class="chip"><input type="radio" name="task" id="tIdent" value="ident"><span>Co je vyznačeno?</span></label>
           </div>
         </fieldset>
-        <fieldset><legend>Odpověď u otázky „Co je vyznačeno?“</legend>
+        <fieldset><legend>Odpověď u otázek bez klikání do mapy</legend>
           <div class="chips">
             <label class="chip"><input type="radio" name="ans" id="aChoice" value="choice" checked><span>Výběr ze 4</span></label>
             <label class="chip"><input type="radio" name="ans" id="aType" value="type"><span>Napsat název</span></label>
@@ -220,6 +271,7 @@ const unproj=(x,y)=>[x/(K*SC)+LON0,LAT0-y/SC];
 const pathOf=id=>GEO[id].rings.map(r=>'M'+r.map(p=>proj(p[0],p[1]).map(v=>v.toFixed(1)).join(' ')).join('L')+'Z').join('');
 const inRing=(p,r)=>{let c=false;for(let i=0,j=r.length-1;i<r.length;j=i++){const[xi,yi]=r[i],[xj,yj]=r[j];if((yi>p[1])!=(yj>p[1])&&p[0]<(xj-xi)*(p[1]-yi)/(yj-yi)+xi)c=!c;}return c;};
 const inGeo=(p,id)=>GEO[id].rings.reduce((c,r)=>c^inRing(p,r),false);
+function distToGeo(x,y,id){let d=1e9;GEO[id].rings.forEach(r=>{let [ax,ay]=proj(r[0][0],r[0][1]);for(let i=1;i<r.length;i++){const [bx,by]=proj(r[i][0],r[i][1]);const dx=bx-ax,dy=by-ay;let t=((x-ax)*dx+(y-ay)*dy)/(dx*dx+dy*dy||1);t=Math.max(0,Math.min(1,t));d=Math.min(d,Math.hypot(x-ax-t*dx,y-ay-t*dy));ax=bx;ay=by;}});return d;}
 const areaOf=id=>GEO[id].rings.reduce((s,r)=>{let a=0;for(let i=0,j=r.length-1;i<r.length;j=i++)a+=(r[j][0]-r[i][0])*(r[j][1]+r[i][1]);return s+Math.abs(a/2);},0);
 
 /* ---------- položky ---------- */
@@ -271,40 +323,74 @@ function setVB(){svg.setAttribute('viewBox',`${vb.x} ${vb.y} ${vb.w} ${vb.h}`);d
 function zoomAt(f,cx,cy){const nw=Math.min(VB0.w,Math.max(40,vb.w*f));const k=nw/vb.w;vb.x=cx-(cx-vb.x)*k;vb.y=cy-(cy-vb.y)*k;vb.w=nw;vb.h=nw*VB0.h/VB0.w;clampVB();setVB();}
 function clampVB(){vb.x=Math.max(VB0.x-vb.w*.3,Math.min(VB0.x+VB0.w-vb.w*.7,vb.x));vb.y=Math.max(VB0.y-vb.h*.3,Math.min(VB0.y+VB0.h-vb.h*.7,vb.y));}
 const svgPt=(cx,cy)=>{const pt=svg.createSVGPoint();pt.x=cx;pt.y=cy;return pt.matrixTransform(svg.getScreenCTM().inverse());};
-const pxUnit=()=>vb.w/svg.getBoundingClientRect().width; // svg jednotek na 1 px
+const pxUnit=()=>{const r=svg.getBoundingClientRect();return Math.max(vb.w/r.width,vb.h/r.height);}; // svg jednotek na 1 px
 $('zin').onclick=()=>zoomAt(.66,vb.x+vb.w/2,vb.y+vb.h/2);
 $('zout').onclick=()=>zoomAt(1.5,vb.x+vb.w/2,vb.y+vb.h/2);
 $('zreset').onclick=()=>{vb={...VB0};setVB();};
+function fitTo(ids){let x0=1e9,x1=-1e9,y0=1e9,y1=-1e9;ids.forEach(id=>GEO[id].rings.forEach(r=>r.forEach(p=>{const [x,y]=proj(p[0],p[1]);x0=Math.min(x0,x);x1=Math.max(x1,x);y0=Math.min(y0,y);y1=Math.max(y1,y);})));
+  const ar=VB0.w/VB0.h;let w=Math.max((x1-x0)*1.6,(y1-y0)*1.6*ar,150);w=Math.min(w,VB0.w);const h=w/ar;
+  vb={x:(x0+x1)/2-w/2,y:(y0+y1)/2-h/2,w,h};clampVB();setVB();}
+function screenSize(ids){let x0=1e9,x1=-1e9,y0=1e9,y1=-1e9;ids.forEach(id=>GEO[id].rings.forEach(r=>r.forEach(p=>{const [x,y]=proj(p[0],p[1]);x0=Math.min(x0,x);x1=Math.max(x1,x);y0=Math.min(y0,y);y1=Math.max(y1,y);})));return Math.max(x1-x0,y1-y0)/pxUnit();}
+function inView(ids){let ok=true;ids.forEach(id=>GEO[id].rings.forEach(r=>r.forEach(p=>{const [x,y]=proj(p[0],p[1]);if(x<vb.x||x>vb.x+vb.w||y<vb.y||y>vb.y+vb.h)ok=false;})));return ok;}
 svg.addEventListener('wheel',e=>{e.preventDefault();const p=svgPt(e.clientX,e.clientY);zoomAt(e.deltaY<0?.8:1.25,p.x,p.y);},{passive:false});
-const ptrs=new Map();let drag=null,pinch=null;
+const ptrs=new Map();let drag=null,pinch=null,lastTap=null;
 svg.addEventListener('pointerdown',e=>{svg.setPointerCapture(e.pointerId);ptrs.set(e.pointerId,{x:e.clientX,y:e.clientY});
-  if(ptrs.size===1)drag={x:e.clientX,y:e.clientY,vx:vb.x,vy:vb.y,moved:0};
+  if(ptrs.size===1)drag={x:e.clientX,y:e.clientY,vx:vb.x,vy:vb.y,moved:0,touch:e.pointerType!=='mouse'};
   else if(ptrs.size===2){const [a,b]=[...ptrs.values()];pinch={d:Math.hypot(a.x-b.x,a.y-b.y),w:vb.w};drag=null;}});
 svg.addEventListener('pointermove',e=>{if(!ptrs.has(e.pointerId))return;ptrs.set(e.pointerId,{x:e.clientX,y:e.clientY});
   if(pinch&&ptrs.size===2){const [a,b]=[...ptrs.values()];const d=Math.hypot(a.x-b.x,a.y-b.y);const c=svgPt((a.x+b.x)/2,(a.y+b.y)/2);zoomAt((pinch.w*pinch.d/d)/vb.w,c.x,c.y);return;}
-  if(drag){const dx=e.clientX-drag.x,dy=e.clientY-drag.y;drag.moved=Math.max(drag.moved,Math.hypot(dx,dy));if(drag.moved>5){const u=pxUnit();vb.x=drag.vx-dx*u;vb.y=drag.vy-dy*u;clampVB();setVB();}}});
+  if(drag){const dx=e.clientX-drag.x,dy=e.clientY-drag.y;drag.moved=Math.max(drag.moved,Math.hypot(dx,dy));if(drag.moved>(drag.touch?9:5)){const u=pxUnit();vb.x=drag.vx-dx*u;vb.y=drag.vy-dy*u;clampVB();setVB();}}});
 const endPtr=e=>{const wasDrag=drag;ptrs.delete(e.pointerId);if(ptrs.size<2)pinch=null;
-  if(e.type==='pointerup'&&wasDrag&&wasDrag.moved<=5&&ptrs.size===0){const p=svgPt(e.clientX,e.clientY);onMapClick(p.x,p.y);}
+  if(e.type==='pointerup'&&wasDrag&&wasDrag.moved<=(wasDrag.touch?9:5)&&ptrs.size===0){const p=svgPt(e.clientX,e.clientY);
+    const now=Date.now();
+    if(wasDrag.touch&&mode==='atlas'&&lastTap&&now-lastTap.t<320&&Math.hypot(e.clientX-lastTap.x,e.clientY-lastTap.y)<30){lastTap=null;zoomAt(.5,p.x,p.y);return;}
+    lastTap={t:now,x:e.clientX,y:e.clientY};
+    onMapClick(p.x,p.y,wasDrag.touch);}
   if(ptrs.size===0)drag=null;};
 svg.addEventListener('pointerup',endPtr);svg.addEventListener('pointercancel',endPtr);
 
 /* překryvné vrstvy: popisky, vrcholy, města, zvýraznění */
 let overlay={names:true,peaks:'all',peakLabels:true,cities:true,hl:[],hlClass:'',peakState:{},mark:null,labelItems:null};
 function drawOverlays(){
-  const u=pxUnit()||1;
+  const rr=svg.getBoundingClientRect();if(!rr.width||!rr.height)return; // mapa je skrytá
+  const u=pxUnit();
   const gL=$('gLabels'),gP=$('gPeaks'),gC=$('gCities'),gH=$('gHL'),gM=$('gMark');
+  const focus=mode==='atlas'?selected:null;
   gL.textContent='';gP.textContent='';gC.textContent='';gH.textContent='';gM.textContent='';
   overlay.hl.forEach(id=>el('path',{d:pathOf(id),class:'hl '+overlay.hlClass},gH));
-  if(overlay.cities&&$('lyCities').checked)CITIES.forEach(([n,la,lo])=>{const [x,y]=proj(lo,la);const g=el('g',{class:'city'},gC);el('circle',{cx:x,cy:y,r:2.6*u,'stroke-width':1*u},g);const t=el('text',{x:x+4*u,y:y+3.5*u,'font-size':10.5*u,'stroke-width':2.5*u},g);t.textContent=n;});
+  if(overlay.cities&&$('lyCities').checked)CITIES.forEach(([n,la,lo])=>{const [x,y]=proj(lo,la);const g=el('g',{class:'city'},gC);el('circle',{cx:x,cy:y,r:2.6*u,'stroke-width':1*u},g);const t=el('text',{x:x+4*u,y:y+3.5*u,'font-size':10.5*u,'stroke-width':2.5*u,'data-pr':1e5-CITIES.findIndex(c=>c[0]===n)},g);t.textContent=n;});
   if(overlay.names&&(overlay.labelItems||$('lyNames').checked)){(overlay.labelItems||units).forEach(it=>{if(!it.label)return;const [x,y]=proj(it.label[0],it.label[1]);const fs=(it.kind==='unit'?11:13)*u;
       const words=it.name.split(' ');const lines=words.length>2&&it.name.length>18?[words.slice(0,Math.ceil(words.length/2)).join(' '),words.slice(Math.ceil(words.length/2)).join(' ')]:[it.name];
-      const t=el('text',{x,y:y-(lines.length-1)*fs*.5,'font-size':fs,'text-anchor':'middle','stroke-width':3*u,'font-weight':it.kind==='unit'?500:600},gL);
+      const pr=(overlay.labelItems?4e6:0)+(focus===it?5e6:0)+(it.kind==='unit'?1e6+(it.area||0)*1e5:2e6);
+      const t=el('text',{x,y:y-(lines.length-1)*fs*.5,'font-size':fs,'text-anchor':'middle','stroke-width':3*u,'font-weight':it.kind==='unit'?500:600,'data-pr':pr},gL);
       lines.forEach((ln,i)=>{const ts=el('tspan',{x,dy:i?fs:0},t);ts.textContent=ln;});});}
   const showPk=overlay.peaks==='all'?(($('lyPeaks').checked)?peaks:[]):(overlay.peaks||[]);
   showPk.forEach(pk=>{const [x,y]=proj(pk.lon,pk.lat);const st=overlay.peakState[pk.key]||'';const s=(st?7:5.2)*u;
     const g=el('g',{class:'peak '+st},gP);el('path',{d:`M${x} ${y-s}L${x+s*.9} ${y+s*.6}L${x-s*.9} ${y+s*.6}Z`,'stroke-width':1.2*u},g);
-    if(overlay.peakLabels||st==='good'||st==='on-label'){const t=el('text',{x:x+6*u,y:y+3.5*u,'font-size':10.5*u,'stroke-width':2.5*u},g);t.textContent=pk.name.replace(/ \(.*\)/,'')+(pk.h?' '+pk.h:'');}});
+    if(overlay.peakLabels||st==='good'||st==='on-label'){const t=el('text',{x:x+6*u,y:y+3.5*u,'font-size':10.5*u,'stroke-width':2.5*u,'data-pr':(st?6e6:(focus&&pk.unit===focus?3e6:5e5+pk.h))},g);t.textContent=pk.name.replace(/ \(.*\)/,'')+(pk.h?' '+pk.h:'');}});
+  declutter(u);
   if(overlay.mark){const [x,y]=overlay.mark;el('circle',{cx:x,cy:y,r:6*u,class:'clickmark'},gM);el('path',{d:`M${x-4*u} ${y-4*u}L${x+4*u} ${y+4*u}M${x+4*u} ${y-4*u}L${x-4*u} ${y+4*u}`,class:'clickmark'},gM);}
+}
+// skryje popisky, které by se překrývaly; přednost mají jednotky, pak vrcholy, pak města
+function declutter(u){
+  const texts=[...svg.querySelectorAll('#gLabels text,#gPeaks text,#gCities text')].map(t=>({t,pr:+t.dataset.pr||0}));
+  texts.sort((a,b)=>b.pr-a.pr);
+  const pad=1.5*u, taken=[];
+  const hit=(b,own)=>taken.some(o=>o.owner!==own&&b.x<o.x+o.width+pad&&b.x+b.width+pad>o.x&&b.y<o.y+o.height+pad&&b.y+b.height+pad>o.y);
+  // značky vrcholů a měst jsou překážkou pro popisky vrcholů a měst
+  const marks=[...svg.querySelectorAll('#gPeaks path,#gCities circle')].map(m=>{try{const r=m.getBBox();return {x:r.x,y:r.y,width:r.width,height:r.height,owner:m.parentNode};}catch(e){return null;}}).filter(Boolean);
+  let marksIn=false;
+  for(const {t,pr} of texts){
+    if(!marksIn&&pr<1e6){taken.push(...marks);marksIn=true;}
+    let b;try{b=t.getBBox();}catch(e){continue;}
+    b={x:b.x,y:b.y,width:b.width,height:b.height};
+    if(t.parentNode.id==='gLabels'){ // název jednotky posunout dovnitř výřezu, ať není useknutý
+      const m=4*u,L=vb.x+m,Rr=vb.x+vb.w-m;let dx=0;
+      if(b.width<Rr-L){if(b.x<L)dx=L-b.x;else if(b.x+b.width>Rr)dx=Rr-b.x-b.width;}
+      if(dx){t.setAttribute('transform',`translate(${dx} 0)`);b.x+=dx;}}
+    else if(pr<6e6&&(b.x+b.width>vb.x+vb.w||b.x<vb.x)){t.remove();continue;} // popisek vrcholu či města by přesahoval okraj
+    if(hit(b,t.parentNode))t.remove();else taken.push(b);
+  }
 }
 ['lyColors','lyNames','lyPeaks','lyCities'].forEach(id=>$(id).addEventListener('change',()=>{paintColors();drawOverlays();saveSettings();}));
 new ResizeObserver(()=>drawOverlays()).observe(svg);
@@ -324,7 +410,9 @@ if(store.settings.layers){const l=store.settings.layers;$('lyColors').checked=l.
 
 /* ---------- režimy ---------- */
 let mode='atlas';
-function setMode(m){mode=m;$('tabAtlas').setAttribute('aria-selected',m==='atlas');$('tabQuiz').setAttribute('aria-selected',m==='quiz');
+const setPage=v=>{document.body.dataset.mode=v;};
+const phone=()=>matchMedia('(max-width:900px)').matches&&!matchMedia('(orientation:landscape) and (max-height:520px)').matches;
+function setMode(m){mode=m;setPage(m==='atlas'?'atlas':'setup');$('tabAtlas').setAttribute('aria-selected',m==='atlas');$('tabQuiz').setAttribute('aria-selected',m==='quiz');
   $('panelAtlas').hidden=m!=='atlas';$('panelQuiz').hidden=m!=='quiz';
   if(m==='atlas'){quiz=null;$('setup').hidden=false;$('qcard').hidden=true;resetOverlay();showInfo(selected);}
   else{resetOverlay();overlay.names=false;overlay.peaks=[];overlay.hl=[];drawOverlays();}}
@@ -338,7 +426,7 @@ function showInfo(it){
   const box=$('info');
   document.querySelectorAll('.tree button.u').forEach(b=>b.classList.toggle('cur',it&&b.dataset.key===it.key));
   if(!it){overlay.hl=[];overlay.hlClass='';drawOverlays();
-    box.innerHTML=`<p class="eyebrow">Atlas</p><h2>Klikni do mapy nebo do tabulky</h2><p class="muted">Ukáže se jednotka, její subprovincie a provincie a vrcholy z tabulky. Mapu přibližuješ kolečkem, tlačítky nebo dvěma prsty.</p>
+    box.innerHTML=`<p class="eyebrow">Atlas</p><h2>Klikni do mapy nebo do tabulky</h2><p class="muted">Ukáže se jednotka, její subprovincie a provincie a vrcholy z tabulky. Mapu přibližuješ kolečkem, tlačítky, dvěma prsty nebo dvojím klepnutím.</p>
     <p class="hint">${units.length} jednotek, ${peaks.length} vrcholů, ${subsI.length} subprovincií, ${provs.length} provincie.</p>`;return;}
   overlay.hl=it.geo||[];overlay.hlClass='sel';drawOverlays();
   if(it.kind==='unit'){const s=subById[it.sub],p=provById[provOfSub(it.sub)];
@@ -346,9 +434,9 @@ function showInfo(it){
       (it.peaks.length?`<h3>Vrcholy</h3><ul class="peaks">${it.peaks.map(k=>`<li><span>${k.name}${k.out==='DE'?' <span class="muted">(Německo)</span>':k.out==='SK'?' <span class="muted">(Slovensko)</span>':''}</span><span class="num">${k.h} m</span></li>`).join('')}</ul>`:'<p class="muted">Bez vrcholu v tabulce.</p>');}
   else box.innerHTML=`<p class="eyebrow">${it.kind==='sub'?provById[it.prov].name:'Provincie'}</p><h2>${it.name}</h2><p class="muted">Klikni na jednotku pro podrobnosti.</p>`;
 }
-function onAtlasClick(x,y){const [lon,lat]=unproj(x,y);
+function onAtlasClick(x,y,touch){const [lon,lat]=unproj(x,y);
   // klik na vrchol
-  const u=pxUnit();const pk=peaks.find(k=>{const [px,py]=proj(k.lon,k.lat);return Math.hypot(px-x,py-y)<9*u;});
+  const u=pxUnit();const pk=peaks.find(k=>{const [px,py]=proj(k.lon,k.lat);return Math.hypot(px-x,py-y)<(touch?16:9)*u;});
   if(pk&&$('lyPeaks').checked){selected=pk.unit;showInfo(selected);return;}
   const hit=unitAt(lon,lat);
   if(hit){selected=hit;showInfo(hit);return;}
@@ -364,7 +452,7 @@ function buildTree(){
     DATA.SUB.filter(s=>s.prov===p.id).forEach(s=>{const h=document.createElement('div');h.className='subname';h.innerHTML=`<span class="sw" style="background:var(${SUBC[s.id]})"></span>${s.short}`;sb.appendChild(h);
       units.filter(u=>u.sub===s.id).forEach(u=>{const b=document.createElement('button');b.className='u';b.dataset.key=u.key;
         b.innerHTML=`${u.name}${u.peaks.length?` <span class="pk">${u.peaks.map(k=>k.name.replace(/ \(.*\)/,'')+' '+k.h).join(', ')}</span>`:''}`;
-        b.onclick=()=>{selected=u;showInfo(u);};sb.appendChild(b);});});
+        b.onclick=()=>{selected=u;if(!inView(u.geo)||screenSize(u.geo)<70)fitTo(u.geo);showInfo(u);};sb.appendChild(b);});});
     d.appendChild(sb);t.appendChild(d);});
 }
 
@@ -393,7 +481,7 @@ $('setup').addEventListener('change',updateNote);
 
 function questionsFor(it,task){
   const t=[];
-  if(it.kind==='peak'){if(task!=='ident'){t.push('peakFind','peakUnit');}if(task!=='find')t.push('peakIdent');}
+  if(it.kind==='peak'){if(task!=='ident')t.push('peakFind','peakUnitFind');if(task!=='find')t.push('peakIdent','peakUnit');}
   else{if(task!=='ident')t.push('find');if(task!=='find')t.push('ident');}
   return t;
 }
@@ -406,9 +494,9 @@ function startQuiz(onlyMist,list){
   const weight=it=>{const st=store.stats[it.key];return st?(st.last===0?2:0)+(st.w>st.r?1:0):1;};
   p=shuffle(p.slice()).sort((a,b)=>weight(b)-weight(a));
   const n=onlyMist||list?p.length:(s.cnt||p.length);
-  const qs=shuffle(p.slice(0,n)).map(it=>{const ts=questionsFor(it,s.task);return {it,type:ts[Math.floor(Math.random()*ts.length)],ans:s.ans};});
+  const qs=shuffle(p.slice(0,n)).map(it=>{const ts=questionsFor(it,s.task);const type=ts[Math.floor(Math.random()*ts.length)];return {it,type,ans:type==='peakUnit'?'choice':s.ans};});
   quiz={qs,i:0,score:0,wrong:[],done:false,setup:s};
-  $('setup').hidden=true;$('qcard').hidden=false;showQ();
+  $('setup').hidden=true;$('qcard').hidden=false;setPage('run');vb={...VB0};setVB();showQ();
 }
 $('start').onclick=()=>startQuiz(false);
 $('startMist').onclick=()=>startQuiz(true);
@@ -431,27 +519,36 @@ function showQ(){
   else if(q.type==='ident'){overlay.hl=it.geo;prompt=`Co je vyznačeno na mapě?`;body=`<p class="hint">${KIND[it.kind]}</p>`+answerUI(q);}
   else if(q.type==='peakFind'){overlay.peaks=peaksForQuiz();prompt=`Najdi vrchol: <b>${peakText(it)}</b>`;body=`<p class="hint">Klikni na správný trojúhelník.</p>`;}
   else if(q.type==='peakIdent'){overlay.peaks=[it];overlay.peakState={[it.key]:'on'};prompt=`Který vrchol je označen?`;body=answerUI(q);}
-  else if(q.type==='peakUnit'){overlay.peaks=[it];overlay.peakState={[it.key]:'on'};overlay.peakLabels=true;prompt=`Ve které jednotce leží <b>${peakText(it)}</b>? Klikni do mapy.`;body=`<p class="hint">Vrchol je v mapě vyznačen.</p>`;}
+  else if(q.type==='peakUnit'){overlay.peaks=[it];overlay.peakState={[it.key]:'on'};overlay.peakLabels=true;prompt=`Ve které jednotce leží vyznačený vrchol <b>${peakText(it)}</b>?`;body=answerUI(q);}
+  else if(q.type==='peakUnitFind'){prompt=`Klikni do jednotky, ve které leží vrchol <b>${peakText(it)}</b>.`;body=`<p class="hint">Vrchol na mapě není vyznačen.</p>`;}
+  // vyznačené místo musí být vidět
+  const shown=(q.type==='ident')?it.geo:null, shownPk=(q.type==='peakIdent'||q.type==='peakUnit')?it:null;
+  if(shown&&!inView(shown)){vb={...VB0};setVB();}
+  else if(shownPk){const [px,py]=proj(shownPk.lon,shownPk.lat);if(px<vb.x||px>vb.x+vb.w||py<vb.y||py>vb.y+vb.h){vb={...VB0};setVB();}}
+  else if(q.type==='peakFind'&&vb.w<VB0.w){vb={...VB0};setVB();}
   drawOverlays();
   const tot=quiz.qs.length;
   $('qcard').innerHTML=`<div class="qhead"><span>Otázka ${quiz.i+1} / ${tot}</span><span>správně ${quiz.score}</span></div><div class="bar"><i style="width:${quiz.i/tot*100}%"></i></div>
     <p class="prompt">${prompt}</p>${body}<div id="fb"></div><div class="row" style="margin-top:10px"><button class="btn" id="next" hidden>Další</button><button class="btn ghost" id="quit">Ukončit</button></div>`;
   $('quit').onclick=finish;$('next').onclick=next;
-  if(q.type==='ident'||q.type==='peakIdent'){
+  if(phone())window.scrollTo(0,0);
+  if(isAsk(q)){
     if(q.ans==='choice'){document.querySelectorAll('.opts button').forEach(b=>b.onclick=()=>answerChoice(b));}
     else{const inp=$('typed');inp.focus({preventScroll:true});$('typedForm').addEventListener('submit',e=>{e.preventDefault();answerTyped(inp.value);});$('giveup').onclick=()=>answerTyped('');}}
 }
 function peaksForQuiz(){const s=quiz.setup;return peaks.filter(k=>s.subs.includes(k.sub));}
+const isAsk=q=>q.type==='ident'||q.type==='peakIdent'||q.type==='peakUnit';
+const target=q=>q.type==='peakUnit'?q.it.unit:q.it;
 function answerUI(q){
   if(q.ans==='type')return `<form class="typed" id="typedForm" autocomplete="off"><input id="typed" placeholder="Napiš název" aria-label="Odpověď"><button class="btn" type="submit">OK</button></form><p class="hint" style="margin-top:6px">Na diakritice a drobném překlepu nezáleží. <button type="button" class="btn ghost" id="giveup" style="padding:2px 8px;font-size:.9rem">Nevím</button></p>`;
-  const opts=shuffle([q.it.name].concat(distractors(q.it,3)));
+  const tg=target(q);const opts=shuffle([tg.name].concat(distractors(tg,3)));
   return `<div class="opts">${opts.map(o=>`<button type="button" data-v="${o.replace(/"/g,'&quot;')}">${o}</button>`).join('')}</div>`;
 }
 function record(it,ok){const st=store.stats[it.key]||{r:0,w:0,last:1};ok?st.r++:st.w++;st.last=ok?1:0;store.stats[it.key]=st;save();}
 function context(it){
   if(it.kind==='unit')return `${it.name} · ${subById[it.sub].name}`+(it.peaks.length?` · ${it.peaks.map(k=>k.name.replace(/ \(.*\)/,'')+' '+k.h+' m').join(', ')}`:'');
   if(it.kind==='sub')return `${it.name} · provincie ${provById[it.prov].name}`;
-  if(it.kind==='peak')return `${peakText(it)} · ${it.unit.name}`+(it.out==='DE'?' (vrchol leží v Německu)':it.out==='SK'?' (vrchol leží na Slovensku)':'');
+  if(it.kind==='peak')return `${peakText(it)} · ${it.unit.name} · ${subById[it.sub].name}`+(it.out==='DE'?' (vrchol leží v Německu)':it.out==='SK'?' (vrchol leží na Slovensku)':'');
   return it.name;
 }
 function feedback(ok,extra){
@@ -459,27 +556,30 @@ function feedback(ok,extra){
   $('fb').innerHTML=`<div class="fb ${ok?'ok':'bad'}"><strong>${ok?'Správně':'Chyba'}</strong>${extra?extra+'<br>':''}${context(q.it)}</div>`;
   document.querySelector('.qhead span:last-child').textContent='správně '+quiz.score;
   $('next').hidden=false;$('next').textContent=quiz.i+1<quiz.qs.length?'Další':'Výsledek';$('next').focus({preventScroll:true});
+  if(phone())requestAnimationFrame(()=>{const r=$('next').getBoundingClientRect();if(r.bottom>innerHeight-8)window.scrollBy({top:r.bottom-innerHeight+16,behavior:'smooth'});});
 }
 function revealCorrect(){const q=quiz.qs[quiz.i],it=q.it;
-  if(it.kind==='peak'){overlay.peaks=[it];overlay.peakState={[it.key]:'good'};if(q.type==='peakUnit'){overlay.hl=it.unit.geo;overlay.hlClass='ok';}}
+  if(it.kind==='peak'){overlay.peaks=[it];overlay.peakState={[it.key]:'good'};if(q.type==='peakUnit'||q.type==='peakUnitFind'){overlay.hl=it.unit.geo;overlay.hlClass='ok';}}
   else{overlay.hl=it.geo;overlay.hlClass='ok';}
-  overlay.labelItems=[q.type==='peakUnit'?it.unit:it].filter(x=>x.kind!=='peak');overlay.names=true;drawOverlays();}
-function answerChoice(b){const q=quiz.qs[quiz.i];if(q.answered)return;const ok=b.dataset.v===q.it.name;
-  document.querySelectorAll('.opts button').forEach(x=>{x.disabled=true;if(x.dataset.v===q.it.name)x.classList.add('right');});if(!ok)b.classList.add('wrong');
-  revealCorrect();feedback(ok,ok?'':`Správně je: ${q.it.name}`);}
-function answerTyped(v){const q=quiz.qs[quiz.i];if(q.answered)return;const ok=typedOk(v,q.it);$('typed').disabled=true;
-  revealCorrect();feedback(ok,ok?(norm(v)!==norm(q.it.name)?`Píše se: ${q.it.name}`:''):`Správně je: ${q.it.name}`+(v.trim()?` (napsáno: ${v.replace(/</g,'&lt;')})`:''));}
-function onQuizClick(x,y){
+  overlay.labelItems=[(q.type==='peakUnit'||q.type==='peakUnitFind')?it.unit:it].filter(x=>x.kind!=='peak');overlay.names=true;drawOverlays();}
+function answerChoice(b){const q=quiz.qs[quiz.i];if(q.answered)return;const tg=target(q);const ok=b.dataset.v===tg.name;
+  document.querySelectorAll('.opts button').forEach(x=>{x.disabled=true;if(x.dataset.v===tg.name)x.classList.add('right');});if(!ok)b.classList.add('wrong');
+  revealCorrect();feedback(ok,ok?'':`Správně je: ${tg.name}`);}
+function answerTyped(v){const q=quiz.qs[quiz.i];if(q.answered)return;const tg=target(q);const ok=typedOk(v,tg);$('typed').disabled=true;
+  revealCorrect();feedback(ok,ok?(norm(v)!==norm(tg.name)?`Píše se: ${tg.name}`:''):`Správně je: ${tg.name}`+(v.trim()?` (napsáno: ${v.replace(/</g,'&lt;')})`:''));}
+function onQuizClick(x,y,touch){
   if(!quiz||quiz.done)return;const q=quiz.qs[quiz.i];if(q.answered)return;const it=q.it;const [lon,lat]=unproj(x,y);
-  if(q.type==='find'){const ok=it.geo.some(g=>inGeo([lon,lat],g));overlay.mark=ok?null:[x,y];revealCorrect();
+  const tol=(touch?12:3)*pxUnit(); // prst je méně přesný: těsně u hranice se uzná
+  const hitGeo=ids=>ids.some(g=>inGeo([lon,lat],g))||ids.some(g=>distToGeo(x,y,g)<=tol);
+  if(q.type==='find'){const ok=hitGeo(it.geo);overlay.mark=ok?null:[x,y];revealCorrect();
     let where='';if(!ok){where=it.kind==='prov'?(()=>{const s=subAt(lon,lat);return s?provById[s.prov].name:(celekAt(lon,lat)?'Středoevropská nížina':'mimo území Česka');})():it.kind==='sub'?((subAt(lon,lat)||{}).name||(celekAt(lon,lat)?'Středopolské nížiny':'mimo území Česka')):placeName(lon,lat);}
     feedback(ok,ok?'':`Klikl(a) jsi do: ${where}`);}
   else if(q.type==='peakFind'){const u=pxUnit();let best=null,bd=1e9;overlay.peaks.forEach(k=>{const [px,py]=proj(k.lon,k.lat);const d=Math.hypot(px-x,py-y);if(d<bd){bd=d;best=k;}});
-    if(!best||bd>16*u)return; // klik mimo trojúhelníky se nepočítá
+    if(!best||bd>(touch?24:16)*u)return; // klik mimo trojúhelníky se nepočítá
     const ok=best===it;overlay.peakState={[it.key]:'good'};if(!ok)overlay.peakState[best.key]='on';overlay.peakLabels=false;
     overlay.peaks=ok?[it]:[it,best];overlay.labelItems=[];drawOverlays();
     feedback(ok,ok?'':`Označil(a) jsi: ${peakText(best)}`);}
-  else if(q.type==='peakUnit'){const ok=it.unit.geo.some(g=>inGeo([lon,lat],g));overlay.mark=ok?null:[x,y];revealCorrect();
+  else if(q.type==='peakUnitFind'){const ok=hitGeo(it.unit.geo);overlay.mark=ok?null:[x,y];revealCorrect();
     feedback(ok,ok?'':`Klikl(a) jsi do: ${placeName(lon,lat)}`);}
 }
 function next(){quiz.i++;if(quiz.i>=quiz.qs.length)finish();else showQ();}
@@ -491,16 +591,17 @@ function finish(){
   $('qcard').innerHTML=`<p class="eyebrow">Výsledek</p><div class="row" style="align-items:baseline;gap:12px"><span class="score">${quiz.score} / ${answered}</span><span class="muted">${pct} %</span></div>
     ${wrongItems.length?`<h3>Chyby (červeně v mapě)</h3><ul class="mist">${wrongItems.map(i=>`<li>${i.kind==='peak'?peakText(i)+' – '+i.unit.name:i.name} <span class="muted">· ${KIND[i.kind]}</span></li>`).join('')}</ul>`:'<p>Bez chyby.</p>'}
     <div class="row">${wrongItems.length?'<button class="btn" id="again">Procvičit tyto chyby</button>':''}<button class="btn ${wrongItems.length?'ghost':''}" id="same">Nové kolo</button><button class="btn ghost" id="toSetup">Nastavení</button></div>`;
+  if(phone())window.scrollTo(0,0);
   if(wrongItems.length)$('again').onclick=()=>{const s=quiz.setup;startQuiz(false,wrongItems);};
-  $('same').onclick=()=>startQuiz(false);$('toSetup').onclick=()=>{quiz=null;$('qcard').hidden=true;$('setup').hidden=false;updateNote();resetOverlay();overlay.names=false;overlay.peaks=[];drawOverlays();};
+  $('same').onclick=()=>startQuiz(false);$('toSetup').onclick=()=>{quiz=null;$('qcard').hidden=true;$('setup').hidden=false;setPage('setup');window.scrollTo(0,0);updateNote();resetOverlay();overlay.names=false;overlay.peaks=[];drawOverlays();};
 }
 document.addEventListener('keydown',e=>{if(mode!=='quiz'||!quiz||quiz.done)return;const q=quiz.qs[quiz.i];
   if(e.key==='Enter'&&q.answered&&document.activeElement.id!=='typed'){e.preventDefault();next();}
-  if(!q.answered&&q.ans==='choice'&&(q.type==='ident'||q.type==='peakIdent')&&/^[1-4]$/.test(e.key)){const b=document.querySelectorAll('.opts button')[+e.key-1];if(b)answerChoice(b);}});
+  if(!q.answered&&q.ans==='choice'&&isAsk(q)&&/^[1-4]$/.test(e.key)){const b=document.querySelectorAll('.opts button')[+e.key-1];if(b)answerChoice(b);}});
 document.addEventListener('keydown',e=>{if(e.key==='Enter'&&e.target.id==='typed'&&quiz&&quiz.qs[quiz.i].answered){e.preventDefault();next();}},true);
 
-function onMapClick(x,y){if(mode==='atlas')onAtlasClick(x,y);else onQuizClick(x,y);}
+function onMapClick(x,y,touch){if(mode==='atlas')onAtlasClick(x,y,touch);else onQuizClick(x,y,touch);}
 
 /* start */
-paintColors();buildTree();setVB();showInfo(null);updateNote();
+setPage('atlas');paintColors();buildTree();setVB();showInfo(null);updateNote();
 </script>

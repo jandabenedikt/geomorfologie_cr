@@ -13,6 +13,8 @@ Webová aplikace pro výuku zeměpisu: atlas a trénink místopisu geomorfologic
 - Při psaní se nehlídá diakritika a drobné překlepy.
 - Historie chyb se ukládá jen v prohlížeči daného zařízení (localStorage).
 
+**Mobil a tablet.** Na úzké obrazovce zůstává mapa při scrollování nahoře a otázka je hned pod ní. Odpovědi jsou ve dvou sloupcích s velkými tlačítky. Klepnutí prstem těsně vedle hranice hledané jednotky se uzná jako správné. V atlasu se mapa přibližuje dvojím klepnutím nebo dvěma prsty a po výběru z tabulky se přiblíží na zvolenou jednotku. Na telefonu otočeném na šířku jsou mapa a panel vedle sebe. Názvy v mapě se nepřekrývají: zobrazí se ty, které se vejdou, a při přiblížení přibývají.
+
 Aplikace je jeden soubor `index.html` bez serveru a bez instalace. Z internetu načítá jen písma z Google Fonts; bez nich funguje s náhradními písmy.
 
 ## Zveřejnění přes GitHub Pages
