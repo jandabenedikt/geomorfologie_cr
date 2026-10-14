@@ -32,7 +32,7 @@ const U=[
  ['Brdská vrchovina','S05','C05A5',[['Tok',865,49.70444,13.87694]]],
  ['Křivoklátská vrchovina','S05','C05A3',[]],
  ['Džbán','S05','C05A1',[]],
- ['Ralská pahorkatina','S06','C06A1',[['Ralsko',698,50.67417,14.76583],['Bezděz',606,50.53917,14.72028],['Trosky',511,50.51655,15.23116,'X']]],
+ ['Ralská pahorkatina','S06','C06A1',[['Ralsko',698,50.67417,14.76583],['Bezděz',606,50.53917,14.72028]]],
  ['Dolnooharská tabule','S06','C06B1',[['Říp',461,50.38653,14.28963]]],
  ['Lužické hory','S04','C04A2',[['Luž',793,50.84889,14.64694]]],
  ['Ještědsko-kozákovský hřbet','S04','C04A3',[['Ještěd',1012,50.73222,14.98528]]],
@@ -62,5 +62,7 @@ const U=[
  ['Vizovická vrchovina','S09','C09C1',[]],
  ['Chřiby','S09','C09B3',[['Brdo',587,49.17111,17.30889]]],
  ['Dolnomoravský úval','S10','C10A1',[]],
+ // doplněno mimo tabulku ze sešitu: Trosky leží podle mapy AOPK v Jičínské pahorkatině
+ ['Jičínská pahorkatina','S06','C06A2',[['Trosky',511,50.51655,15.23116]]],
 ];
 module.exports={PROV,SUB,U};

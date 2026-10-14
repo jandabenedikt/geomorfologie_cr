@@ -1,6 +1,6 @@
 # Geomorfologické členění Česka
 
-Webová aplikace pro výuku zeměpisu: atlas a trénink místopisu geomorfologických jednotek Česka a jejich vrcholů. Obsah odpovídá tabulce ze sešitu: 3 provincie, 9 subprovincií, 45 jednotek a 34 vrcholů.
+Webová aplikace pro výuku zeměpisu: atlas a trénink místopisu geomorfologických jednotek Česka a jejich vrcholů. Obsah vychází z tabulky ze sešitu: 3 provincie, 9 subprovincií, 46 jednotek (45 z tabulky a navíc Jičínská pahorkatina) a 34 vrcholů.
 
 ## Co umí
 
@@ -62,5 +62,5 @@ Skript znovu vytvoří `index.html` a soubory v `data/`.
 
 - Většina jednotek jsou geomorfologické celky. Středočeská pahorkatina, Českomoravská vrchovina a Českobudějovická a Třeboňská pánev jsou oblasti, Žďárské vrchy a Oderské vrchy podcelky.
 - Českomoravská vrchovina jako oblast zahrnuje i Železné hory a Žďárské vrchy, takže klik do nich se u ní počítá jako správný.
-- Trosky leží podle mapy AOPK v Jičínské pahorkatině; v aplikaci jsou podle tabulky u Ralské pahorkatiny.
+- Trosky leží podle mapy AOPK v Jičínské pahorkatině. Tabulka ze sešitu je uváděla u Ralské pahorkatiny; v aplikaci je proto navíc jednotka Jičínská pahorkatina (Česká tabule) s vrcholem Trosky.
 - Velký Javor (Großer Arber) leží v Německu, Velký Javorník na Slovensku.

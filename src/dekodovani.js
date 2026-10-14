@@ -6,7 +6,7 @@ const fs = require('fs');
 const path = require('path');
 const A = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_';
 
-const txt = fs.readFileSync(path.join(__dirname, 'geometrie.txt'), 'utf8').replace(/\s/g, '');
+const txt = fs.readFileSync(path.join(__dirname, 'geometrie.txt'), 'utf8').replace(/[\r\n]/g, '');
 
 function decRing(s) {
   const vals = [];

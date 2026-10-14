@@ -225,23 +225,6 @@
   {
    "type": "Feature",
    "properties": {
-    "nazev": "Trosky",
-    "vyska_m": 511,
-    "jednotka": "Ralská pahorkatina",
-    "subprovincie": "Česká tabule",
-    "mimo_cr": "X"
-   },
-   "geometry": {
-    "type": "Point",
-    "coordinates": [
-     15.23116,
-     50.51655
-    ]
-   }
-  },
-  {
-   "type": "Feature",
-   "properties": {
     "nazev": "Říp",
     "vyska_m": 461,
     "jednotka": "Dolnooharská tabule",
@@ -576,6 +559,23 @@
     "coordinates": [
      17.30889,
      49.17111
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "nazev": "Trosky",
+    "vyska_m": 511,
+    "jednotka": "Jičínská pahorkatina",
+    "subprovincie": "Česká tabule",
+    "mimo_cr": null
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     15.23116,
+     50.51655
     ]
    }
   }
