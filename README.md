@@ -10,6 +10,7 @@ Webová aplikace pro výuku zeměpisu: atlas a trénink místopisu geomorfologic
 - Okruhy: provincie, subprovincie, jednotky, vrcholy.
 - Úlohy: *Najdi na mapě*, *Co je vyznačeno?* (výběr ze 4 možností nebo napsání názvu), u vrcholů také *Ve které jednotce leží?*
 - Výběr subprovincií a počtu otázek, vyhodnocení kola, procvičení chyb.
+- Otázku lze přeskočit. Přeskočená otázka se nehodnotí ani nepočítá do statistik; ve výsledku je uvedená zvlášť a dá se procvičit spolu s chybami.
 - Při psaní se nehlídá diakritika a drobné překlepy.
 - Historie chyb se ukládá jen v prohlížeči daného zařízení (localStorage).
 

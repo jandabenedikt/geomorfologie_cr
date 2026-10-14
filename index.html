@@ -617,7 +617,7 @@ function startQuiz(onlyMist,list){
   p=shuffle(p.slice()).sort((a,b)=>weight(b)-weight(a));
   const n=onlyMist||list?p.length:(s.cnt||p.length);
   const qs=shuffle(p.slice(0,n)).map(it=>{const ts=questionsFor(it,s.task);const type=ts[Math.floor(Math.random()*ts.length)];return {it,type,ans:type==='peakUnit'?'choice':s.ans};});
-  quiz={qs,i:0,score:0,wrong:[],done:false,setup:s};
+  quiz={qs,i:0,score:0,wrong:[],skipped:[],done:false,setup:s};
   $('setup').hidden=true;$('qcard').hidden=false;setPage('run');vb={...VB0};setVB();showQ();
 }
 $('start').onclick=()=>startQuiz(false);
@@ -651,8 +651,8 @@ function showQ(){
   drawOverlays();
   const tot=quiz.qs.length;
   $('qcard').innerHTML=`<div class="qhead"><span>Otázka ${quiz.i+1} / ${tot}</span><span>správně ${quiz.score}</span></div><div class="bar"><i style="width:${quiz.i/tot*100}%"></i></div>
-    <p class="prompt">${prompt}</p>${body}<div id="fb"></div><div class="row" style="margin-top:10px"><button class="btn" id="next" hidden>Další</button><button class="btn ghost" id="quit">Ukončit</button></div>`;
-  $('quit').onclick=finish;$('next').onclick=next;
+    <p class="prompt">${prompt}</p>${body}<div id="fb"></div><div class="row" style="margin-top:10px"><button class="btn" id="next" hidden>Další</button><button class="btn ghost" id="skip">Přeskočit</button><button class="btn ghost" id="quit">Ukončit</button></div>`;
+  $('quit').onclick=finish;$('next').onclick=next;$('skip').onclick=skip;
   if(phone())window.scrollTo(0,0);
   if(isAsk(q)){
     if(q.ans==='choice'){document.querySelectorAll('.opts button').forEach(b=>b.onclick=()=>answerChoice(b));}
@@ -677,7 +677,7 @@ function feedback(ok,extra){
   const q=quiz.qs[quiz.i];q.answered=true;if(ok)quiz.score++;else quiz.wrong.push(q);record(q.it,ok);
   $('fb').innerHTML=`<div class="fb ${ok?'ok':'bad'}"><strong>${ok?'Správně':'Chyba'}</strong>${extra?extra+'<br>':''}${context(q.it)}</div>`;
   document.querySelector('.qhead span:last-child').textContent='správně '+quiz.score;
-  $('next').hidden=false;$('next').textContent=quiz.i+1<quiz.qs.length?'Další':'Výsledek';$('next').focus({preventScroll:true});
+  $('skip').hidden=true;$('next').hidden=false;$('next').textContent=quiz.i+1<quiz.qs.length?'Další':'Výsledek';$('next').focus({preventScroll:true});
   if(phone())requestAnimationFrame(()=>{const r=$('next').getBoundingClientRect();if(r.bottom>innerHeight-8)window.scrollBy({top:r.bottom-innerHeight+16,behavior:'smooth'});});
 }
 function revealCorrect(){const q=quiz.qs[quiz.i],it=q.it;
@@ -704,17 +704,24 @@ function onQuizClick(x,y,touch){
   else if(q.type==='peakUnitFind'){const ok=hitGeo(it.unit.geo);overlay.mark=ok?null:[x,y];revealCorrect();
     feedback(ok,ok?'':`Klikl(a) jsi do: ${placeName(lon,lat)}`);}
 }
+// přeskočení: otázka se nehodnotí ani nezapočítá do statistik, objeví se ve výsledku
+function skip(){if(!quiz||quiz.done)return;const q=quiz.qs[quiz.i];if(q.answered)return;q.skipped=true;quiz.skipped.push(q);next();}
 function next(){quiz.i++;if(quiz.i>=quiz.qs.length)finish();else showQ();}
 function finish(){
   if(!quiz)return;quiz.done=true;const answered=quiz.qs.filter(q=>q.answered).length;const pct=answered?Math.round(quiz.score/answered*100):0;
   resetOverlay();overlay.names=false;overlay.peaks=[];overlay.hl=[...new Set(quiz.wrong.flatMap(q=>q.it.kind==='peak'?[]:q.it.geo))];overlay.hlClass='';
   overlay.peaks=quiz.wrong.filter(q=>q.it.kind==='peak').map(q=>q.it);overlay.peakLabels=true;overlay.labelItems=quiz.wrong.map(q=>q.it).filter(i=>i.kind!=='peak');overlay.names=true;drawOverlays();
   const wrongItems=[...new Set(quiz.wrong.map(q=>q.it))];
-  $('qcard').innerHTML=`<p class="eyebrow">Výsledek</p><div class="row" style="align-items:baseline;gap:12px"><span class="score">${quiz.score} / ${answered}</span><span class="muted">${pct} %</span></div>
-    ${wrongItems.length?`<h3>Chyby (červeně v mapě)</h3><ul class="mist">${wrongItems.map(i=>`<li>${i.kind==='peak'?peakText(i)+' – '+i.unit.name:i.name} <span class="muted">· ${KIND[i.kind]}</span></li>`).join('')}</ul>`:'<p>Bez chyby.</p>'}
-    <div class="row">${wrongItems.length?'<button class="btn" id="again">Procvičit tyto chyby</button>':''}<button class="btn ${wrongItems.length?'ghost':''}" id="same">Nové kolo</button><button class="btn ghost" id="toSetup">Nastavení</button></div>`;
+  const skippedItems=[...new Set(quiz.skipped.map(q=>q.it))].filter(i=>!wrongItems.includes(i));
+  const againItems=wrongItems.concat(skippedItems);
+  const li=i=>`<li>${i.kind==='peak'?peakText(i)+' – '+i.unit.name:i.name} <span class="muted">· ${KIND[i.kind]}</span></li>`;
+  const againLabel=wrongItems.length&&skippedItems.length?'Procvičit chyby a přeskočené':wrongItems.length?'Procvičit tyto chyby':'Procvičit přeskočené';
+  $('qcard').innerHTML=`<p class="eyebrow">Výsledek</p><div class="row" style="align-items:baseline;gap:12px"><span class="score">${quiz.score} / ${answered}</span><span class="muted">${pct} %</span>${skippedItems.length?`<span class="muted">· přeskočeno ${quiz.skipped.length}</span>`:''}</div>
+    ${wrongItems.length?`<h3>Chyby (červeně v mapě)</h3><ul class="mist">${wrongItems.map(li).join('')}</ul>`:(answered?'<p>Bez chyby.</p>':'')}
+    ${skippedItems.length?`<h3>Přeskočené</h3><ul class="mist">${skippedItems.map(li).join('')}</ul>`:''}
+    <div class="row">${againItems.length?`<button class="btn" id="again">${againLabel}</button>`:''}<button class="btn ${againItems.length?'ghost':''}" id="same">Nové kolo</button><button class="btn ghost" id="toSetup">Nastavení</button></div>`;
   if(phone())window.scrollTo(0,0);
-  if(wrongItems.length)$('again').onclick=()=>{const s=quiz.setup;startQuiz(false,wrongItems);};
+  if(againItems.length)$('again').onclick=()=>startQuiz(false,againItems);
   $('same').onclick=()=>startQuiz(false);$('toSetup').onclick=()=>{quiz=null;$('qcard').hidden=true;$('setup').hidden=false;setPage('setup');window.scrollTo(0,0);updateNote();resetOverlay();overlay.names=false;overlay.peaks=[];drawOverlays();};
 }
 document.addEventListener('keydown',e=>{if(mode!=='quiz'||!quiz||quiz.done)return;const q=quiz.qs[quiz.i];
